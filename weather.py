@@ -37,6 +37,7 @@ def get_forecast(lat, long):
                               "windspeed_10m" : "wind"})
 
     df = df[df['time'] > datetime.now()]
+    df = df.to_string(index = False)
     return(df)
 
 # apply functions
