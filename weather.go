@@ -59,15 +59,10 @@ func print_forecast(forecast interface{}) interface{}{
   wind := forecast.(map[string]interface{})["windspeed_10m"].([]interface{})
 
 
- // tmp := timev[1]
- // pat := regexp.MustCompile(`https?://.*\.txt`)
- // a := pat.FindString(tmp)
- // fmt.Println(a)
 
   now := time.Now().Format(HH)
-  // TODO: align the columns nicely
-  // 1. Format time as hours
-  fmt.Print("Row\tTime\tTemp\tWind\tRain\n")
+
+  fmt.Print("Time\tTemp\tWind\tRain\n")
 
   for key := range timev {
     timefmt, err := time.Parse(TAJM, timev[key].(string))
@@ -80,7 +75,7 @@ func print_forecast(forecast interface{}) interface{}{
     if timefmt.Format(HH) == now {
       fmt.Print(">")
     }
-    fmt.Print(key, ":\t", timefmt.Format(HHMM), "\t", tempfmt, "\t", windfmt, "\t", rainfmt, "\n")
+    fmt.Print(timefmt.Format(HHMM), "\t", tempfmt, "\t", windfmt, "\t", rainfmt, "\n")
   }
   return(forecast)
 }
