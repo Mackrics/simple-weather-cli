@@ -15,6 +15,7 @@ const HHMM = "15:04"
 const TAJM = "2006-01-02T15:04"
 const colorRed = "\033[0;31m"
 const colorNone = "\033[0m"
+const kh_to_ms =  0.2777777777777778
 
 func get_long_lat(location string) [2]string {
   url := "https://geocoding-api.open-meteo.com/v1/search?name=" + location +
@@ -70,7 +71,7 @@ func print_forecast(forecast interface{}) interface{}{
       os.Exit(1)
     }
     tempfmt := fmt.Sprintf("%.1f", temp[key].(float64))
-    windfmt := fmt.Sprintf("%.1f", wind[key].(float64))
+    windfmt := fmt.Sprintf("%.1f", wind[key].(float64) * kh_to_ms)
     rainfmt := fmt.Sprintf("%.1f", rain[key].(float64))
     if timefmt.Format(HH) == now {
       fmt.Print(">")
@@ -82,7 +83,7 @@ func print_forecast(forecast interface{}) interface{}{
 
 
 func main() {
-  location := flag.String("location", "gothenburg", "The forecast location")
+  location := flag.String("l", "copenhagen", "The forecast location")
   flag.Parse()
   longLat := get_long_lat(*location)
   forecast := get_forecast(longLat[0], longLat[1])
