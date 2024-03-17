@@ -2,7 +2,6 @@ package main
 
 import (
     "fmt"
-    "flag"
     "net/http"
     "os"
     "time"
@@ -13,8 +12,6 @@ import (
 const HH = "15"
 const HHMM = "15:04"
 const TAJM = "2006-01-02T15:04"
-const colorRed = "\033[0;31m"
-const colorNone = "\033[0m"
 const kh_to_ms =  0.2777777777777778
 
 func get_long_lat(location string) [2]string {
@@ -83,9 +80,12 @@ func print_forecast(forecast interface{}) interface{}{
 
 
 func main() {
-  location := flag.String("l", "copenhagen", "The forecast location")
-  flag.Parse()
-  longLat := get_long_lat(*location)
+  if len(os.Args[1:]) != 1 {
+    fmt.Println("Error: please enter your location")
+    os.Exit(1)
+  }
+  location :=  os.Args[1]
+  longLat := get_long_lat(location)
   forecast := get_forecast(longLat[0], longLat[1])
   print_forecast(forecast)
 }
