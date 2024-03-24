@@ -70,10 +70,9 @@ func print_forecast(forecast interface{}) interface{}{
     tempfmt := fmt.Sprintf("%.1f", temp[key].(float64))
     windfmt := fmt.Sprintf("%.1f", wind[key].(float64) * kh_to_ms)
     rainfmt := fmt.Sprintf("%.1f", rain[key].(float64))
-    if timefmt.Format(HH) == now {
-      fmt.Print(">")
+    if timefmt.Format(HH) >= now {
+      fmt.Print(timefmt.Format(HHMM), "\t", tempfmt, "\t", windfmt, "\t", rainfmt, "\n")
     }
-    fmt.Print(timefmt.Format(HHMM), "\t", tempfmt, "\t", windfmt, "\t", rainfmt, "\n")
   }
   return(forecast)
 }
