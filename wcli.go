@@ -26,6 +26,10 @@ func get_long_lat(location string) [2]string {
     defer resp.Body.Close()
     var coordData map[string]interface{}
     json.NewDecoder(resp.Body).Decode(&coordData)
+    if coordData["results"] == nil {
+      fmt.Println("Error: invalid location")
+      os.Exit(1)
+    }
     var lat = coordData["results"].([]interface{})[0].(map[string]interface{})["latitude"]
     var long = coordData["results"].([]interface{})[0].(map[string]interface{})["longitude"]
     var longLat [2]string
